@@ -65,7 +65,7 @@ no table
 ### Вариант 1
 Пара ключ-значение записывается в соответствующий файл по следующему правилу:
 ```
-hashcode = key.hashCode()
+hashcode = Math.abs(key.hashCode())
 ndirectory = hashcode % 16
 nfile = hashcode / 16 % 16
 ```
@@ -73,7 +73,7 @@ nfile = hashcode / 16 % 16
 ### Вариант 2
 Пара ключ-значение записывается в соответствующий файл по следующему правилу:
 ```
-byte = key.bytes[0]
+byte = Math.abs(key.bytes[0])
 ndirectory = byte % 16
 nfile = byte / 16 % 16
 ```
