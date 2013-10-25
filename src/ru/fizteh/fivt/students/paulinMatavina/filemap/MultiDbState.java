@@ -181,6 +181,7 @@ public class MultiDbState extends State{
     
     public int getFileNum(String key) {
         byte[] bytes = key.getBytes();
-        return (Math.abs(bytes[0]) / 16 % 16);
+        byte b = Math.abs(bytes[0])l
+        return ((b / 16) % 16);
     }
 }
