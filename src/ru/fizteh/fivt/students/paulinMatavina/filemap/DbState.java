@@ -142,13 +142,13 @@ public class DbState extends State{
                 value = getValueFromFile(startOffset, (int) dbFile.length());
             }
             
-            //if (key != null) {
-                if (key.getBytes().length < 1 || getFolderNum(key) != foldNum 
-                        || getFileNum(key) != fileNum) {
+            if (key.getBytes().length > 0) {
+                if (getFolderNum(key) != foldNum || getFileNum(key) != fileNum) {
                     throw new IOException("wrong key in file");
                 }
                 data.put(key, value);
-            //}
+            }
+            
             key = key2;
             startOffset = endOffset;
         } while (position <= firstOffset); 
