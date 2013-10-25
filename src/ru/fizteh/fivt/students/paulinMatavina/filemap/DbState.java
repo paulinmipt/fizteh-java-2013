@@ -142,12 +142,13 @@ public class DbState extends State{
                 value = getValueFromFile(startOffset, (int) dbFile.length());
             }
             
-            if (key != null) {
-                if (getFolderNum(key) != foldNum || getFileNum(key) != fileNum) {
+            //if (key != null) {
+                if (getFolderNum(key) != foldNum || getFileNum(key) != fileNum 
+                                    || key == null) {
                     throw new IOException("wrong key in file");
                 }
                 data.put(key, value);
-            }
+            //}
             key = key2;
             startOffset = endOffset;
         } while (position <= firstOffset); 
@@ -176,13 +177,11 @@ public class DbState extends State{
     }
     
     public int getFolderNum(String key) {
-        byte[] bytes = key.getBytes();
-        return (Math.abs(bytes[0]) % 16);
+        return (Math.abs(key.getBytes()[0]) % 16);
     }
     
     public int getFileNum(String key) {
-        byte[] bytes = key.getBytes();
-        return (Math.abs(bytes[0]) / 16 % 16);
+        return ((Math.abs(key.getBytes()[0]) / 16) % 16);
     }
     
     public int put(String[] args) {
