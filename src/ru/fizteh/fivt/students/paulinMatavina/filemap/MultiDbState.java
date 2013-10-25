@@ -66,7 +66,7 @@ public class MultiDbState extends State{
             for (int j = 0; j < fileInFolderNum; j++) {
                 String file = Integer.toString(j) + ".dat";
                 String filePath = shell.makeNewSource(fold, file);
-                data[i][j] = new DbState(filePath);
+                data[i][j] = new DbState(filePath, i, j);
                 File f = new File(data[i][j].path);
                 f.createNewFile();
                 data[i][j].loadData();
@@ -175,10 +175,12 @@ public class MultiDbState extends State{
     }
     
     public int getFolderNum(String key) {
-        return (Math.abs(key.getBytes()[0]) % 16);
+        byte[] bytes = key.getBytes();
+        return (Math.abs(bytes[0]) % 16);
     }
     
     public int getFileNum(String key) {
-        return ((Math.abs(key.getBytes()[0]) / 16) % 16);
+        byte[] bytes = key.getBytes();
+        return (Math.abs(bytes[0]) / 16 % 16);
     }
 }

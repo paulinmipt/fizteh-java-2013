@@ -15,8 +15,12 @@ public class DbState extends State{
     public HashMap<String, String> data;
     public RandomAccessFile dbFile;
     public String path;
+    private int foldNum;
+    private int fileNum;
     
-    public DbState(String dbPath) {
+    public DbState(String dbPath, int folder, int file) {
+        foldNum = folder;
+        fileNum = file;
         path = dbPath;
         commands = new HashMap<String, Command>();
         this.add(new DbGet());
@@ -137,6 +141,10 @@ public class DbState extends State{
             } else {
                 value = getValueFromFile(startOffset, (int) dbFile.length());
             }
+            
+            if (getFolderNum(key) != foldNum || getFileNum(key) != fileNum) {
+                throw new IOException("wrong key in file");
+            }
             data.put(key, value);
             key = key2;
             startOffset = endOffset;
@@ -163,6 +171,16 @@ public class DbState extends State{
             dbFile.write(value);
             offset += value.length;
         }
+    }
+    
+    public int getFolderNum(String key) {
+        byte[] bytes = key.getBytes();
+        return (Math.abs(bytes[0]) % 16);
+    }
+    
+    public int getFileNum(String key) {
+        byte[] bytes = key.getBytes();
+        return (Math.abs(bytes[0]) / 16 % 16);
     }
     
     public int put(String[] args) {
