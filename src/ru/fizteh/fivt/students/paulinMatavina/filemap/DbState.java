@@ -143,8 +143,8 @@ public class DbState extends State{
             }
             
             //if (key != null) {
-                if (getFolderNum(key) != foldNum || getFileNum(key) != fileNum 
-                                    || key.getBytes().length < 1) {
+                if (key == null || getFolderNum(key) != foldNum 
+                        || getFileNum(key) != fileNum) {
                     throw new IOException("wrong key in file");
                 }
                 data.put(key, value);
